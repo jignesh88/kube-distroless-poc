@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: snyk-monitor
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: snyk-monitor
+  namespace: snyk-monitor
+type: Opaque
+data:
+  dockercfg.json: <base64-encoded-dockercfg>
+  integrationId: <base64-encoded-integration-id>
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snyk-monitor
+  namespace: snyk-monitor
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: snyk-monitor
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  - replicationcontrollers
+  - namespaces
+  - limitranges
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - replicasets
+  - statefulsets
+  - daemonsets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  - jobs
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: snyk-monitor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: snyk-monitor
+subjects:
+- kind: ServiceAccount
+  name: snyk-monitor
+  namespace: snyk-monitor
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snyk-monitor
+  namespace: snyk-monitor
+  labels:
+    app: snyk-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snyk-monitor
+  template:
+    metadata:
+      labels:
+        app: snyk-monitor
+    spec:
+      serviceAccountName: snyk-monitor
+      containers:
+      - name: snyk-monitor
+        image: snyk/kubernetes-monitor:latest
+        imagePullPolicy: Always
+        env:
+        - name: SNYK_INTEGRATION_ID
+          valueFrom:
+            secretKeyRef:
+              name: snyk-monitor
+              key: integrationId
+        - name: SNYK_MONITOR_CLUSTER_NAME
+          value: "distroless-demo"
+        volumeMounts:
+        - name: docker-config
+          mountPath: /srv/app/.docker
+          readOnly: true
+      volumes:
+      - name: docker-config
+        secret:
+          secretName: snyk-monitor
+          items:
+          - key: dockercfg.json
+            path: config.json
