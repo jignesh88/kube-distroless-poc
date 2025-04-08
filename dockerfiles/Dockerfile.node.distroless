@@ -1,0 +1,13 @@
+# Build stage
+FROM node:20-slim as builder
+WORKDIR /app
+COPY ../applications/node-app/package*.json ./
+RUN npm install --only=production
+COPY ../applications/node-app/ .
+
+# Final stage
+FROM gcr.io/distroless/nodejs20:nonroot
+WORKDIR /app
+COPY --from=builder /app /app
+USER nonroot:nonroot
+CMD ["index.js"]
