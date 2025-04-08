@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distroless vs Alpine Security Comparison</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { display: flex; flex-wrap: wrap; }
+        .card { border: 1px solid #ddd; border-radius: 8px; margin: 10px; padding: 15px; width: 300px; }
+        .distroless { background-color: #e6f7ff; }
+        .alpine { background-color: #f9f9f9; }
+        .metric { margin: 10px 0; }
+        .value { font-weight: bold; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Distroless vs Alpine Images Comparison</h1>
+    
+    <div class="container">
+        <!-- Golang -->
+        <div class="card distroless">
+            <h2>Golang Distroless</h2>
+            <div class="metric">Size: <span class="value">~7MB</span></div>
+            <div class="metric">Vulnerabilities: <span class="value">Minimal</span></div>
+            <div class="metric">Attack Surface: <span class="value">Very Small</span></div>
+        </div>
+        
+        <div class="card alpine">
+            <h2>Golang Alpine</h2>
+            <div class="metric">Size: <span class="value">~15MB</span></div>
+            <div class="metric">Vulnerabilities: <span class="value">Low</span></div>
+            <div class="metric">Attack Surface: <span class="value">Small</span></div>
+        </div>
+        
+        <!-- Node.js -->
+        <div class="card distroless">
+            <h2>Node.js Distroless</h2>
+            <div class="metric">Size: <span class="value">~120MB</span></div>
+            <div class="metric">Vulnerabilities: <span class="value">Low</span></div>
+            <div class="metric">Attack Surface: <span class="value">Small</span></div>
+        </div>
+        
+        <div class="card alpine">
+            <h2>Node.js Alpine</h2>
+            <div class="metric">Size: <span class="value">~180MB</span></div>
+            <div class="metric">Vulnerabilities: <span class="value">Medium</span></div>
+            <div class="metric">Attack Surface: <span class="value">Medium</span></div>
+        </div>
+        
+        <!-- Python -->
+        <div class="card distroless">
+            <h2>Python Distroless</h2>
+            <div class="metric">Size: <span class="value">~130MB</span></div>
+            <div class="metric">Vulnerabilities: <span class="value">Low</span></div>
+            <div class="metric">Attack Surface: <span class="value">Small</span></div>
+        </div>
+        
+        <div class="card alpine">
+            <h2>Python Alpine</h2>
+            <div class="metric">Size: <span class="value">~220MB</span></div>
+            <div class="metric">Vulnerabilities: <span class="value">Medium</span></div>
+            <div class="metric">Attack Surface: <span class="value">Medium</span></div>
+        </div>
+    </div>
+    
+    <h2>Key Observations:</h2>
+    <ul>
+        <li>Distroless images are significantly smaller, especially for compiled languages like Go</li>
+        <li>Distroless images have fewer vulnerabilities due to minimal included packages</li>
+        <li>Alpine images include package managers and shells that increase attack surface</li>
+        <li>Snyk operator effectively identifies vulnerabilities in both image types</li>
+    </ul>
+</body>
+</html>
