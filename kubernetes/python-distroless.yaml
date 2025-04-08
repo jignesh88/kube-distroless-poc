@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-distroless
+  labels:
+    app: python-distroless
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-distroless
+  template:
+    metadata:
+      labels:
+        app: python-distroless
+    spec:
+      containers:
+      - name: python-distroless
+        image: ${REGISTRY_URL}/python-distroless:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-distroless
+spec:
+  selector:
+    app: python-distroless
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP

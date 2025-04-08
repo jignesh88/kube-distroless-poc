@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-alpine
+  labels:
+    app: python-alpine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-alpine
+  template:
+    metadata:
+      labels:
+        app: python-alpine
+    spec:
+      containers:
+      - name: python-alpine
+        image: ${REGISTRY_URL}/python-alpine:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-alpine
+spec:
+  selector:
+    app: python-alpine
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
