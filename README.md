@@ -1,14 +1,48 @@
-# Kubernetes Demo: Distroless vs Alpine Images with Snyk
+# Kubernetes Distroless vs Alpine Images Demo with Snyk
 
-This demo showcases the size and security differences between distroless images and regular/Alpine images for Golang, Node.js, and Python applications using Snyk for security scanning.
+This repository contains a demonstration showcasing the size and security differences between distroless images and regular/Alpine images for Golang, Node.js, and Python applications using Snyk for security scanning.
 
 ## Overview
 
-We'll compare:
+This demo compares:
 - Distroless images vs Alpine/regular images
 - Image sizes
 - Security vulnerabilities detected by Snyk
 - Overall security posture
+
+## Repository Structure
+
+```
+.
+├── README.md
+├── applications/
+│   ├── go-app/
+│   │   └── main.go
+│   ├── node-app/
+│   │   ├── index.js
+│   │   └── package.json
+│   └── python-app/
+│       ├── app.py
+│       └── requirements.txt
+├── dockerfiles/
+│   ├── Dockerfile.go.distroless
+│   ├── Dockerfile.go.alpine
+│   ├── Dockerfile.node.distroless
+│   ├── Dockerfile.node.alpine
+│   ├── Dockerfile.python.distroless
+│   └── Dockerfile.python.alpine
+├── kubernetes/
+│   ├── snyk-operator.yaml
+│   ├── golang-distroless.yaml
+│   ├── golang-alpine.yaml
+│   ├── nodejs-distroless.yaml
+│   ├── nodejs-alpine.yaml
+│   ├── python-distroless.yaml
+│   ├── python-alpine.yaml
+│   └── dashboard.yaml
+└── dashboard/
+    └── index.html
+```
 
 ## Prerequisites
 
@@ -17,6 +51,16 @@ We'll compare:
 - Helm installed
 - Docker installed
 - Snyk account (free tier available at snyk.io)
+
+## Usage
+
+1. Clone this repository
+2. Follow the instructions in the documentation to set up your Kubernetes cluster
+3. Install the Snyk Operator
+4. Build and deploy the sample applications
+5. Analyze the results with Snyk
+
+For detailed instructions, see the full documentation.
 
 ## Benefits of Distroless Images
 
@@ -35,4 +79,6 @@ We'll compare:
    - Better resource utilization
    - Improved security posture
 
-Follow the instructions in each directory to set up the demo.
+## License
+
+MIT
